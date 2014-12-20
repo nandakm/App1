@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
+  <title>Google Maps Campus</title> 
+  <script src="http://maps.google.com/maps/api/js?sensor=false" 
+           type="text/javascript"></script> 
+<style>
+html, body, #map-canvas {         height: 95%; width:100%;        margin: 0px;         padding: 0px       }     
+</style>  
+</head> 
+<body> 
+  <div id="map-canvas"></div> 
+  <br>
+  <div align="center">Where are you now?: 
+    <select id="start">
+      <option>EB1</option>
+      <option>EB2</option>
+      <option>EB3</option>
+      <option>EB4</option>
+      <option>EB5</option>
+      <option>EB6</option>
+    </select>
+  </div>  
+  <div align="Center">Where to go?: 
+    <select id="end">
+      <option>EB1</option>
+      <option>EB2</option>
+      <option>EB3</option>
+      <option>EB4</option>
+      <option>EB5</option>
+      <option>EB6</option>
+    </select>
+  </div>
+<div align="Center">
+  <input type="button" align="center" onclick="drawDirections();" value="SHOW PATH" /></div>
+
+  <script type="text/javascript"> 
+    var mapOptions = {       
+      center: new google.maps.LatLng(12.8295347, 80.21780133),
+      zoom: 17
+    };
+
+    var map = new google.maps.Map(document.getElementById("map-canvas"), 
+                                  mapOptions);
+
+    // Predefine all the paths
+    var paths = [];                         
+
+    paths['1_to_2'] = new google.maps.Polyline({
+      path: [
+          new google.maps.LatLng(12.830888015498324,80.21855771541595),
+          new google.maps.LatLng(12.83093508969973,80.21899223327637),
+          new google.maps.LatLng(12.829538551312485,80.21907806396484),
+	  new google.maps.LatLng(12.829549012302998,80.21867036819458) 
+      ], strokeColor: '#FF0000'
+    });
+
+    paths['1_to_3'] = new google.maps.Polyline({
+       path: [
+          new google.maps.LatLng(12.83088278503095,80.21855235099792),
+          new google.maps.LatLng(12.83093508969973,80.2189975976944),
+          new google.maps.LatLng(12.828220463026945,80.21898686885834),
+	  new google.maps.LatLng(12.82824661563945,80.2185845375061)
+       ], strokeColor: '#FF0000'
+    });
+  
+    paths['1_to_4'] = new google.maps.Polyline({
+       path: [          
+	new google.maps.LatLng(12.831008316217725,80.21858990192413),
+	new google.maps.LatLng(12.830976933426905,80.21808564662933),
+	new google.maps.LatLng(12.82830938189833,80.21821975708008),
+	new google.maps.LatLng(12.828225693549662,80.2169269323349) 
+       ], strokeColor: '#FF0000'
+    });
+
+    paths['1_to_5'] = new google.maps.Polyline({
+       path: [
+          new google.maps.LatLng(12.831003085752856,80.21858990192413),
+	  new google.maps.LatLng(12.830971702961387,80.21808564662933),
+	  new google.maps.LatLng(12.829554242798094,80.21819829940796),
+	  new google.maps.LatLng(12.82955947329309,80.21705567836761)
+       ], strokeColor: '#FF0000'
+    });
+
+    paths['1_to_6'] = new google.maps.Polyline({
+       path: [
+          new google.maps.LatLng(12.831003085752856,80.2185845375061),
+	  new google.maps.LatLng(12.83098216389231,80.21808564662933),
+	  new google.maps.LatLng(12.830814788945293,80.21810173988342),
+	  new google.maps.LatLng(12.830799097538295,80.21691620349884) 
+       ], strokeColor: '#FF0000'
+    });
+
+    paths['2_to_3'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.829460093869713,80.21868109703064),
+           new google.maps.LatLng(12.829460093869713,80.21906733512878),
+           new google.maps.LatLng(12.828204771458143,80.21898150444031),
+	   new google.maps.LatLng(12.82824661563945,80.2185845375061)
+       ], strokeColor: '#FF0000'
+    });
+
+   paths['2_to_4'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.82955947329309,80.21868109703064),
+new google.maps.LatLng(12.82955947329309,80.21816074848175),
+new google.maps.LatLng(12.828277998770844,80.21814465522766),
+new google.maps.LatLng(12.828236154594766,80.21683037281036)
+       ], strokeColor: '#FF0000'
+    });
+
+paths['2_to_5'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.829554242798094,80.21867573261261),
+	new google.maps.LatLng(12.829554242798094,80.21698594093323) 
+       ], strokeColor: '#FF0000'
+    });
+paths['2_to_6'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.829564703787971,80.21867573261261),
+new google.maps.LatLng(12.829554242798094,80.21820366382599),
+new google.maps.LatLng(12.83086186316039,80.21813929080963),
+new google.maps.LatLng(12.8308304803513,80.21686255931854) 
+       ], strokeColor: '#FF0000'
+    });
+
+paths['3_to_4'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.82831984293995,80.2185308933258),
+new google.maps.LatLng(12.828267537727482,80.21685183048248) 
+       ], strokeColor: '#FF0000'
+    });
+
+paths['3_to_5'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.828314612419192,80.2185308933258),
+new google.maps.LatLng(12.828288459813772,80.21739363670349),
+new google.maps.LatLng(12.829564703787971,80.21737217903137),
+new google.maps.LatLng(12.829549012302998,80.21697521209717)
+       ], strokeColor: '#FF0000'
+    });
+
+paths['3_to_6'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.828314612419192,80.2185308933258),
+new google.maps.LatLng(12.828288459813772,80.21738827228546),
+new google.maps.LatLng(12.830710179546852,80.2172863483429),
+new google.maps.LatLng(12.830736331900537,80.21683037281036)
+       ], strokeColor: '#FF0000'
+    });
+
+paths['4_to_5'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.828176003579465,80.21691888570786),
+new google.maps.LatLng(12.828189079888363,80.21733462810516),
+new google.maps.LatLng(12.829499322594165,80.21733731031418),
+new google.maps.LatLng(12.829504553090294,80.2170181274414) 
+       ], strokeColor: '#FF0000'
+    });
+
+paths['4_to_6'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.8281786188413,80.21692156791687),
+new google.maps.LatLng(12.828189079888363,80.21733462810516),
+new google.maps.LatLng(12.830710179546852,80.21731853485107),
+new google.maps.LatLng(12.83071802525324,80.21684378385544) 
+       ], strokeColor: '#FF0000'
+    });
+
+paths['5_to_6'] = new google.maps.Polyline({
+       path: [
+           new google.maps.LatLng(12.829507168338312,80.2170181274414),
+new google.maps.LatLng(12.829501937842247,80.21733462810516),
+new google.maps.LatLng(12.830712794782341,80.21731853485107),
+new google.maps.LatLng(12.830720640488652,80.21684378385544) 
+       ], strokeColor: '#FF0000'
+    });
+
+    function drawDirections() {
+      var start = 1 + document.getElementById('start').selectedIndex;
+      var end = 1 + document.getElementById('end').selectedIndex;
+      var i;
+
+      if (start === end) {
+        alert('Please choose different buildings');
+      }
+      else {
+        // Hide all polylines
+        for (i in paths) {
+          paths[i].setOptions({ map: null });
+        }
+
+        // Show the route
+        if (typeof paths['' + start + '_to_' + end] !== 'undefined') {
+          paths['' + start + '_to_' + end].setOptions({ map: map });
+        }
+        else if (typeof paths['' + end + '_to_' + start] !== 'undefined') {
+          paths['' + end + '_to_' + start].setOptions({ map: map });
+        }
+      }
+    }
+  </script> 
+</body> 
+</html>
